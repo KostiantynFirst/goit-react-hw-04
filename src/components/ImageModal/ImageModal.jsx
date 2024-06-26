@@ -48,7 +48,7 @@ useEffect(() => {
 return createPortal(
     <Overlay onClick={handleBackdropClick} >
       {isLoading ? (
-        <Loader /> // Show the spinner while the image is loading
+        <Loader /> 
       ) : (
         <ModalStyled>
           <img src={selectedImage} alt={tags} />

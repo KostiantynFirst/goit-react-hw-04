@@ -1,10 +1,10 @@
 import { ImageGalleryItemStyled, ImageGalleryItemImg } from "./ImageCard.styled"
 
-const ImageCard = ( {tags, smallImg, onImageClick} ) => {
+const ImageCard = ( { photo, onImageClick } ) => {
 
   return (
-    <ImageGalleryItemStyled onClick={onImageClick}>
-      <ImageGalleryItemImg src={smallImg} alt={tags} />
+    <ImageGalleryItemStyled key={photo.id} onClick={onImageClick}>
+      <ImageGalleryItemImg src={photo.urls.small} alt={photo.alt_description} />
     </ImageGalleryItemStyled>
   )
 }

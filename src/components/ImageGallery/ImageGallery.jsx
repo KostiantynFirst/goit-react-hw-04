@@ -4,14 +4,11 @@ import ImageCard from "../ImageCard/ImageCard"
 const ImageGallery = ({images, onImageClick }) => {
     return (
         <ImageGalleryStyled>
-            {images.map(({id, webformatURL, tags, largeImageURL}) => (
+            {images.map((photo) => (
                 <ImageCard
-                    key={id}
-                    smallImg={webformatURL}
-                    tags={tags}
-                    onImageClick={() => onImageClick(largeImageURL, tags)}
+                    photo={photo}
+                    onImageClick={() => onImageClick(photo.urls.regular, photo.alt_description)}
                 />
-                
                 
             ))}
         </ImageGalleryStyled>
