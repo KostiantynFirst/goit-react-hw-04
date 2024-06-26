@@ -7,7 +7,8 @@ import Searchbar from "./components/SearchBar/SearchBar";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import ImageModal from "./components/ImageModal/ImageModal"
 import Loader from "./components/Loader/Loader";
-import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn" 
+import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
+import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,6 +19,7 @@ const App = () => {
   const [status, setStatus] = useState("idle");
   const [totalHits, setTotalHits] = useState(0);
   const [maxPageNumber, setMaxPageNumber] = useState(0);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!searchQuery) return;
@@ -68,6 +70,7 @@ const App = () => {
     setStatus("pending");
     setAlt(null);
     setSelectedImage(null);
+    setError(null);
   };
 
   const handleSelectedImage = (largeImageUrl, tags) => {
@@ -86,20 +89,25 @@ const App = () => {
 
   const showLoadMoreButton = images.length > 0 && page < maxPageNumber;
 
-  return (
+return (
     <AppStyled>
       <Searchbar onSubmit={handleFormSubmit} />
       <ToastContainer autoClose={3000} theme="colored" pauseOnHover />
       {status === "pending" && <Loader />}
-      <ImageGallery images={images} onImageClick={handleSelectedImage} />
-      {selectedImage && (
-        <ImageModal
-          selectedImage={selectedImage}
-          tags={alt}
-          onClose={closeModal}
-        />
+      {status === "rejected" && <ErrorMessage message={error} />}
+      {status === "resolved" && (
+        <>
+          <ImageGallery images={images} onImageClick={handleSelectedImage} />
+          {selectedImage && (
+            <ImageModal
+              selectedImage={selectedImage}
+              tags={alt}
+              onClose={closeModal}
+            />
+          )}
+          {showLoadMoreButton && <LoadMoreBtn onClick={loadMore} />}
+        </>
       )}
-      {showLoadMoreButton && <LoadMoreBtn onClick={loadMore} />}
     </AppStyled>
   );
 };
