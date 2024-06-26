@@ -5,11 +5,16 @@ import { SearchbarField, Header, Form, Button, Input, ButtonLabel} from "./Searc
 
 const Searchbar = ({ onSubmit }) => {
 
-  const [searchQuery, setSearchQuery] = useState('')
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
 
     const handleChange = e => {
         setSearchQuery(e.target.value.toLowerCase());
+        
+        if (isSubmitting) {
+            setIsSubmitting(false);
+        }
     }
 
     const handleSubmit = e => {
@@ -19,6 +24,7 @@ const Searchbar = ({ onSubmit }) => {
             toast.error("Enter something");
             return;
         }
+        setIsSubmitting(true);
         onSubmit(searchQuery);
         setSearchQuery('');
     }
@@ -37,7 +43,7 @@ const Searchbar = ({ onSubmit }) => {
                     value={searchQuery}
                     onChange={handleChange}
                 />
-                <Button type="submit">
+                <Button type="submit" disabled={isSubmitting}>
                     <ButtonLabel>Search</ButtonLabel>
                 </Button>
                 </Form>

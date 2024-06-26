@@ -43,6 +43,11 @@ export const Button = styled.button`
   &:hover {
     background-color: #1976D2;
   }
+
+  &:disabled {
+    background-color: #b0bec5;
+    cursor: not-allowed;
+  }
 `;
 
 export const ButtonLabel = styled.span`
