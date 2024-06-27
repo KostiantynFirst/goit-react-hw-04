@@ -19,7 +19,10 @@ export const FetchMaterials = async (searchQuery, page, perPage = 12) => {
       },
     });
 
-    return response.data;
+    return {
+        data: response.data.results,
+        totalPages: response.data.total_pages,
+  };
   } catch (error) {
     console.error("Error fetching materials:", error);
     throw error;

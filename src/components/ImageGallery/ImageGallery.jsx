@@ -1,11 +1,13 @@
 import { ImageGalleryStyled } from "./ImageGallery.styled";
-import ImageCard from "../ImageCard/ImageCard" 
+import ImageCard from "../ImageCard/ImageCard";
+import { forwardRef } from 'react';
 
-const ImageGallery = ({images, onImageClick }) => {
+const ImageGallery = forwardRef(({ images, onImageClick }, ref) => {
     return (
-        <ImageGalleryStyled>
+        <ImageGalleryStyled ref={ref}>
             {images.map((photo) => (
                 <ImageCard
+                    key={photo.id}
                     photo={photo}
                     onImageClick={() => onImageClick(photo.urls.regular, photo.alt_description)}
                 />
@@ -13,6 +15,6 @@ const ImageGallery = ({images, onImageClick }) => {
             ))}
         </ImageGalleryStyled>
     )
-}
+});
 
 export default ImageGallery;
