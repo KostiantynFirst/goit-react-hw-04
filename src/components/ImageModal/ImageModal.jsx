@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Overlay, ModalStyled } from './ImageModal.styled';
+import { Overlay, ModalStyled, ModalImage } from './ImageModal.styled';
 import Loader from '../Loader/Loader';
 
 const modalRoot = document.querySelector('#modal-root');
@@ -51,7 +50,7 @@ return createPortal(
         <Loader /> 
       ) : (
         <ModalStyled>
-          <img src={selectedImage} alt={tags} />
+          <ModalImage src={selectedImage} alt={tags}/>
         </ModalStyled>
       )}
     </Overlay>,
