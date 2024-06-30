@@ -9,6 +9,7 @@ import ImageModal from "./components/ImageModal/ImageModal"
 import Loader from "./components/Loader/Loader";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import Modal from 'react-modal'
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,10 +20,14 @@ const App = () => {
   const [alt, setAlt] = useState(null);
   const [maxPageNumber, setMaxPageNumber] = useState(0);
   const [error, setError] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
-  const [showBtn, setShowBtn] = useState(false);
 
   const galleryRef = useRef();
+
+  useEffect(() => {
+    Modal.setAppElement('#root');
+  }, []);
 
   useEffect(() => {
     handleScroll();
@@ -83,19 +88,24 @@ const App = () => {
     setError(null);
   };
 
-  const handleSelectedImage = (largeImageUrl, tags) => {
-    setSelectedImage(largeImageUrl);
-    setAlt(tags);
-  };
 
   const loadMore = () => {
     setPage(prevPage => prevPage + 1);
   };
 
-  const closeModal = () => {
-    setSelectedImage(null);
+  const handleSelectedImage = (largeImageUrl, tags) => {
+    setSelectedImage(largeImageUrl);
+    setAlt(tags);
+    setIsOpen(true);
+  };
+
+  const onCloseModal = () => {
+    setIsOpen(false);
+    // setSelectedImage(null);
     setAlt(null);
   };
+
+  
 
   const showLoadMoreButton = images.length > 0 && page < maxPageNumber;
 
@@ -109,12 +119,12 @@ const App = () => {
         onImageClick={handleSelectedImage} />
       {isLoading && <Loader />}
       {error && <ErrorMessage />}
-      {showBtn && <LoadMoreBtn onLoadMoreBtn={handleLoadMore} />}
       {selectedImage && (
-        <ImageModal
+        <ImageModal 
           selectedImage={selectedImage}
           tags={alt}
-          onClose={closeModal}
+          isOpen={modalIsOpen}
+          onRequestClose={onCloseModal}
         />
       )}
       {showLoadMoreButton && <LoadMoreBtn onClick={loadMore} />}
